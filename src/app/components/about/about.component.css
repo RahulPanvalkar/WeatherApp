@@ -1,0 +1,43 @@
+
+.details-container {
+  width: 100%;
+  max-width: 37.5rem;
+  background: var(--bg-lg-2);
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  margin: 1rem auto;
+}
+
+.heading {
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+.about-details p {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.list-unstyled li {
+  font-size: 1rem;
+}
+
+.developer-info, .contact-info {
+  color: var(--white);
+}
+
+.developer-info span, .contact-info a {
+  color: transparent;
+    font-size: 1.2em;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    line-height: 1;
+    overflow: hidden;
+    height: 1em;
+    -webkit-text-stroke: 0.05em #fff;
+}
+
+.material-icons {
+  font-size: 1.2rem;
+}

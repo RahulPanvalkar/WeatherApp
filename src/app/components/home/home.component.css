@@ -1,0 +1,169 @@
+/* ######## Loading Overlay ########## */
+/* Overlay for displaying the loading animation */
+.loading-overlay {
+    position: fixed;          
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;             /* High z-index to ensure it stays above other content */
+} 
+
+/* ######## Main Container ########## */
+/* Main container styling to center content and add padding */
+main.container {
+    margin-top: 5rem;
+    padding-top: 1rem;
+}
+
+
+/* ### Data Container ### */
+/* Data Container divided into upper and lower halves */
+.data-container {
+    width: 100%;
+    max-width: 37.5rem;     /* 600px */
+    max-height: 33.4375rem;  /* 535px */
+    background-color: var(--grey-1);
+    border-radius: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+
+/* Media query for small screens (mobile devices) */
+/* - Adjustments for smaller screens to ensure better layout */
+@media (max-width: 768px) {
+    .data-container {
+        max-height: none;
+    }
+
+    .upper-data {
+        text-align: center;
+    }
+
+    .lower-data {
+        display: block;
+        text-align: center;
+    }
+
+    .more-info-container {
+        grid-template-columns: 1fr; /* Single column layout for small screens */
+    }
+
+    .info-block {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Search input field and button */
+/* - Cleaner appearance for input and button */
+.form-control, .btn {
+    border: none !important;
+    border-radius: 2rem;
+    padding-left: 1rem;
+    text-align: center;
+    width: 2rem;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.form-control:focus {
+    /* Remove default focus styles */
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.input-group input {
+    background: var(--bg-lg-2); /* Background color for input field */
+}
+
+input::placeholder {
+    color: white;
+    opacity: 0.7;
+}
+
+/* For smaller screens */
+@media (max-width: 768px) {
+    .col-10 {
+        width: 45%;      /* Reduce width of input container on small screens */
+    }
+}
+
+
+/* ### Upper Half ### */
+/* Styling for the upper card container */
+.card {
+    border-radius: 0.625rem;    /* 10px */
+}
+
+.upper-data {
+    position: relative;
+    overflow: hidden;
+    height: 15rem;
+    border-top-left-radius: 0.625rem;   /* 10px */
+    border-top-right-radius: 0.625rem;  /* 10px */
+    background-color: var(--bg-lg-2);
+}
+
+.temperature {
+    color: var(--white);
+    font-size: 3rem;
+}
+
+/* Middle */
+/* Styling for the more information label */
+.more-info-label {
+    color: var(--blue-1);
+    font-weight: bold;
+}
+
+/* Lower Half */
+/* Styling for the lower card section */
+.lower-data {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    border-bottom-left-radius: 0.625rem;
+    border-bottom-right-radius: 0.625rem;
+    padding: 2.6rem 1rem;
+    background-color: var(--bg-lg-2);
+}
+
+.more-info-container {
+    display: grid;              /* Grid layout for more information blocks */
+    grid-template-columns: repeat(2, 1fr); /* Two columns layout */
+    gap: 1.5rem;               /* Spacing between grid items */
+}
+
+.info-block-label {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.info-block-label img {
+    width: 1.5rem;
+}
+
+.info-block-label span {
+    font-size: 0.8rem;
+}
+
+.info-block-value {
+    width: 50%;
+    display: flex;
+    justify-content: flex-start; /* Left alignment of content */
+    align-items: center;
+}
+

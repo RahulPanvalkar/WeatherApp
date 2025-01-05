@@ -1,0 +1,180 @@
+/* Main content styling */
+main.container {
+    margin-top: 5rem; 
+    padding-top: 1rem;
+}
+
+/* Container for the forecast data section */
+.data-container {
+    width: 100%;
+    max-width: 37.5rem; /* Limits the maximum width to 600px */
+    background-color: var(--grey-1); 
+    border-radius: 1.25rem; 
+    display: flex; 
+    flex-direction: column; 
+    margin: 0 auto; /* Centers the container horizontally */
+    padding: 1rem; 
+}
+
+/* Container for cards */
+.card-container {
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: space-around; /* Distributes cards evenly */
+    border-radius: 0.625rem; 
+}
+
+/* Styles for individual forecast cards */
+.card {
+    height: 13rem; /* Fixed height for cards */
+    max-width: 10rem; /* Limits the width of the card */
+    border-radius: 0.625rem; 
+    opacity: 0.7;
+    transition: transform 300ms ease-in-out;
+}
+
+/* Container for the upper section data (forecast cards) */
+.upper-data {
+    min-height: 14rem;
+    padding: 1rem; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    gap: 20px; /* Spacing between child elements */
+}
+
+/* Hover effect for cards */
+.card:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Increased shadow on hover */
+    /*background: linear-gradient(177deg, #ffffff, #ffffff, #ffffff, transparent);*/ /* Gradient effect */
+    transform: scale(1.05); /* Slight zoom-in effect */
+    transition: transform 300ms ease-in-out; /* Smooth transition for hover effect */
+}
+
+/* Header styling for cards */
+.card-header {
+    color: var(--blue-1); /* Text color */
+    padding: 0; /* Removes extra padding */
+    border-bottom: 1px solid #d4d4d4; /* Separator line */
+    background: none; /* Transparent background */
+}
+
+.card-header h5 {
+    font-size: 0.8rem;
+}
+
+/* Styling for muted text inside cards */
+.text-muted {
+    margin: 0;
+    font-size: 0.7rem; 
+    line-height: 1rem; /* Adjusts line spacing */
+}
+
+/* Weather icon styling */
+.weather-icon {
+    width: 3.5rem; 
+    height: auto; 
+}
+
+/* Highlight effect for the selected card */
+.selected {
+    opacity: 1;
+    transition: transform 0.3s ease-in-out; /* Smooth zoom-in effect */
+    border: 1px solid var(--blue-1); 
+    transform: scale(1.1); /* Slight zoom-in */
+}
+
+/* Styling for section headings */
+.heading-label {
+    color: var(--blue-1); 
+    font-weight: bold; 
+}
+
+
+
+/* Individual card container for the lower section */
+.card-container .col {
+    max-width: 6.2rem; /* Limits width of individual cards */
+}
+
+
+/* Lower section container styling */
+.lower-data {
+    position: relative; 
+    overflow: hidden; 
+    width: 100%; 
+    min-height: 10rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.625rem;
+}
+
+/* Individual hourly card styling */
+.hourly-card {
+    background: var(--white);
+    border: 1px solid var(--grey-1); 
+    border-radius: 0.5rem; /* Rounded corners */
+    padding: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s ease-in-out; /* Smooth transitions for transform, box-shadow, and opacity */
+}
+
+
+/* Hover effect for hourly cards */
+.hourly-card:hover {
+    transform: translateY(-5px); /* Moves card slightly upwards */
+    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.2); /* Adds depth on hover */
+}
+
+/* Centered text for elements */
+.text-center {
+    text-align: center; 
+}
+
+/* Weather condition image styling */
+.weather-con-img {
+    max-width: 65%;
+    height: auto;
+}
+
+/* Styling for condition text inside hourly cards */
+.condition-text {
+    font-size: 0.7rem;
+    line-height: normal; /* Normal line spacing */
+    color: var(--black) !important; 
+}
+
+/* Horizontal scroll effect for mobile viewports */
+.flex-nowrap-mobile {
+    display: flex; 
+    justify-content: space-between; 
+    gap: 10px; /* Spacing between elements */
+}
+
+
+/* Responsive adjustments for smaller screens (mobile devices) */
+@media (max-width: 768px) {
+    .container, .container-md, .container-sm {
+        max-width: 720px; /* Limits container width */
+    }
+
+    .data-container {
+        max-height: none; /* Removes height restriction */
+    }
+
+    .card-container {
+        flex-wrap: nowrap;
+        gap: 0.5rem; /* Reduces spacing between cards */
+        justify-content: center; /* Centers cards */
+        overflow: hidden;
+    }
+
+    .lower-data {
+        display: block; /* Stacks content vertically */
+        text-align: center; /* Centers text */
+    }
+
+    .card {
+        min-width: 10rem; /* Ensures minimum width for cards */
+    }
+    
+}

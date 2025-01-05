@@ -1,0 +1,50 @@
+.offcanvas {
+  background-color: var(--lg-bg-2); /* Sidebar background color */
+  width: 10rem;
+  border: none;
+}
+
+.offcanvas-header .btn-close {
+  margin: 0;
+  margin-top: 1rem;
+}
+
+.offcanvas-body {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  padding: var(--bs-offcanvas-padding-y) var(--bs-offcanvas-padding-x);
+  overflow-y: auto;
+}
+
+.nav-link img{
+  height: 2rem;
+  width: auto;
+}
+
+.custom-toggler-icon {
+  width: 2rem; 
+  height: 2rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+/*navlink hover animation*/
+@keyframes glow {
+  0% {
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5));
+  }
+  100% {
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+  }
+}
+
+.nav-link:hover {
+  animation: glow 2s infinite alternate;
+}
+

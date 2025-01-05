@@ -1,0 +1,124 @@
+<!-- Loading Overlay -->
+<div *ngIf="loading" class="loading-overlay" role="status">
+  <img src="assets/loading.svg" alt="loading"> <!-- Display loading img while data is being fetched -->
+</div>
+
+<!-- Main Content Container -->
+<main class="container">
+
+  <!-- Search Bar Section -->
+  <div class="row justify-content-center align-items-center">
+    <div class="col-10 col-md-3 col-sm-4">
+      <div class="input-group">
+        <!-- Input Field for City Name -->
+        <div class="input-group mb-3">
+          <input type="text" class="form-control text-light" placeholder="Enter City Name" [(ngModel)]="value"
+            (keydown.enter)="onSearch()"> <!-- Bind input value to `value` and trigger search on Enter key -->
+          <!-- Search Button (Visible only if input has a value) -->
+          <button *ngIf="value" class="btn d-flex justify-content-center bg-light" type="button" (click)="onSearch()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Weather Data Display Section -->
+  <div class="p-3 col-9 data-container">
+
+    <!-- Top Row: Location Details -->
+    <div class="justify-content-center mb-4">
+      <div class="col-12">
+        <div class="card bg-light">
+          <div class="card-body bg-primary-color upper-data">
+            <!-- Location Info and Weather Icon -->
+            <div class="d-flex justify-content-between align-items-center">
+              <img src="assets/weather.png" alt="Weather Icon" class="img-fluid glow-animation"
+                style="max-width: 80px;">
+              <div class="d-flex flex-column align-self-start align-items-end justify-content-center text-light"
+                style="font-size: .725rem;" @fadeInAnimation>
+                <div *ngIf="lastUpdatedTime" class="fw-bold">Last Updated at {{ lastUpdatedTime | date: 'hh:mm a' }}
+                </div>
+                <div *ngIf="currentDateTime" class="fw-bold">{{ currentDateTime | date: 'EEE. dd-MMM' | uppercase }}
+                </div>
+                <div *ngIf="currentDateTime" class="fw-bold">{{ currentDateTime | date: 'hh:mm a' }}</div>
+              </div>
+            </div>
+            <!-- Display City Name, Temperature, and Weather Status -->
+            <div class="text-center text-light" @fadeInAnimation>
+              <h2 class="display-2">{{ cityName }}</h2>
+              <div class="temperature-container">
+                <!-- Display temperature in Celsius or Fahrenheit based on user preference -->
+                <h1 class="fw-bold temperature pulse-animation" *ngIf="cityName">
+                  {{ inCelsius ? temperature_c : temperature_f | number: '1.0-0' }} {{ inCelsius ? '°C' : '°F' }}
+                </h1>
+              </div>
+              <h3 class="fw-bold">{{ weatherStatus }}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Middle Row: More Information Label -->
+    <div class="row justify-content-start">
+      <h4 class="more-info-label">More Information</h4>
+    </div>
+
+    <!-- Bottom Row: Detailed Weather Data -->
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <div class="card bg-light">
+          <div class="card-body bg-primary-color lower-data">
+            <div class="more-info-container d-grid text-light">
+              <!-- Min Temperature Block -->
+              <div class="info-block d-flex">
+                <label class="info-block-label">
+                  <img src="assets/min.png" alt="Min Temperature" class="info-image pulse-animation">
+                  <span class="info-label">min</span>
+                </label>
+                <div class="info-block-value d-flex" *ngIf="minTemp_c" @fadeInAnimation>
+                  {{ inCelsius ? minTemp_c : minTemp_f }} {{ inCelsius ? '°C' : '°F' }}
+                </div>
+              </div>
+
+              <!-- Max Temperature Block -->
+              <div class="info-block d-flex">
+                <div class="info-block-label">
+                  <img src="assets/max.png" class="info-image pulse-animation">
+                  <span>max</span>
+                </div>
+                <div class="info-block-value" *ngIf="maxTemp_c" @fadeInAnimation>
+                  {{ inCelsius ? maxTemp_c : maxTemp_f }} {{ inCelsius ? '°C' : '°F' }}
+                </div>
+              </div>
+
+              <!-- Humidity Block -->
+              <div class="info-block d-flex">
+                <div class="info-block-label">
+                  <img src="assets/humidity.png" class="info-image pulse-animation">
+                  <span>humidity</span>
+                </div>
+                <div class="info-block-value" *ngIf="humidity" @fadeInAnimation>
+                  {{ humidity }}%
+                </div>
+              </div>
+
+              <!-- Wind Block -->
+              <div class="info-block d-flex">
+                <div class="info-block-label">
+                  <img src="assets/wind.png" class="info-image pulse-animation">
+                  <span>wind</span>
+                </div>
+                <div class="info-block-value" *ngIf="wind" @fadeInAnimation>
+                  {{ wind }} km/hr
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>

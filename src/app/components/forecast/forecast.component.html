@@ -1,0 +1,134 @@
+<main class="container">
+  <!-- Main container for the forecast and hourly weather data -->
+
+  <div class="p-3 col-9 mt-4 data-container">
+    <!--  Forecast Details -->
+    <div class="justify-content-center mb-2">
+      <div class="col-12">
+        <!-- Header for the forecast data section -->
+        <h4 class="heading-label mb-0">Forecast Data</h4>
+
+        <!-- Container for forecast cards -->
+        <div class="row p-3 pb-0">
+          <div class="bg-primary-color upper-data card-container" 
+            [ngClass]="{
+              'flex-nowrap-mobile': isMobileView,
+              'd-flex justify-content-around align-items-center flex-wrap flex-md-row': !isMobileView}">
+            
+            <!-- Iterate through daily forecast data -->
+            <div class="card col-md-4 col-sm-12 p-2 text-center" *ngFor="let forecast of dataCard"
+              (click)="selectCard(forecast)" [class.selected]="forecast === selectedCard">
+              <!-- Card header displaying the date -->
+              <div class="card-header">
+                <h5 class="text-uppercase fw-semibold mb-0">
+                  {{ forecast.date | date: 'dd-MMM' }}
+                </h5>
+              </div>
+
+              <!-- Card body displaying weather details -->
+              <div class="card-body p-2">
+                <p class="fw-bold text-secondary mb-0">
+                  {{ forecast.day.condition.text }}
+                </p>
+
+                <!-- Weather icon with conditional animations -->
+                <img [src]="forecast.day.condition.icon" alt="Weather Icon" class="img-fluid weather-icon" 
+                  [ngClass]="{
+                    'rotate-animation': forecast.day.condition.text === 'Sunny',
+                    'zoom-animation': forecast.day.condition.text !== 'Sunny' }" />
+
+                <!-- Display average temperature -->
+                <p class="fw-semibold mb-0" *ngIf="forecast.day.avgtemp_c">
+                  {{ inCelsius ? forecast.day.avgtemp_c : forecast.day.avgtemp_f | number: '1.0-0' }}
+                  {{ inCelsius ? '°C' : '°F' }}
+                </p>
+
+                <!-- Display minimum temperature -->
+                <p *ngIf="forecast.day.mintemp_c" class="text-muted">
+                  Min: {{ inCelsius ? forecast.day.mintemp_c : forecast.day.mintemp_f }}
+                  {{ inCelsius ? '°C' : '°F' }}
+                </p>
+
+                <!-- Display maximum temperature -->
+                <p *ngIf="forecast.day.maxtemp_c" class="text-muted">
+                  Max: {{ inCelsius ? forecast.day.maxtemp_c : forecast.day.maxtemp_f }}
+                  {{ inCelsius ? '°C' : '°F' }}
+                </p>
+
+                <!-- Display humidity -->
+                <p *ngIf="forecast.day.avghumidity" class="text-muted">
+                  Humidity: {{ forecast.day.avghumidity }}%
+                </p>
+
+                <!-- Display wind speed -->
+                <p *ngIf="forecast.day.avgvis_km" class="text-muted">
+                  Wind: {{ forecast.day.avgvis_km }} km/hr
+                </p>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation for hourly data -->
+    <div class="mt-0 d-flex justify-content-between align-items-center">
+      <!-- Section header -->
+      <h4 class="heading-label mb-0">Hourly Data</h4>
+
+      <!-- Navigation buttons -->
+      <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+        <!-- Previous button -->
+        <div class="btn-group me-2" role="group" aria-label="Previous group">
+          <button mat-icon-button color="primary" (click)="getPreviousCards()"[disabled]="currentIndex === 0">
+            <mat-icon>chevron_left</mat-icon>
+          </button>
+        </div>
+
+        <!-- Next button -->
+        <div class="btn-group me-2" role="group" aria-label="Next group">
+          <button mat-icon-button color="primary" (click)="getNextCards()"
+            [disabled]="currentIndex + cardsToShow >= hourlyDataCard.length">
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hourly weather data -->
+    <div class="d-flex justify-content-center">
+      <div class="col-12">
+        <!-- Container for hourly cards -->
+        <div class="card-container bg-light">
+          <div class="card-body bg-primary-color lower-data d-grid text-dark p-3">
+              <div class="card-container row row-cols-2 row-cols-md-4 flex-wrap text-center">
+                <!-- Iterate through hourly forecast data -->
+                <div class="hourly-card col p-2" *ngFor="let card of getVisibleCards()" 
+                [@slideAnimation]="animationTrigger">
+                  <!-- Time for hourly data -->
+                  <div class="fw-bold card-header">
+                    {{ card.time | date: 'HH:mm' }} 
+                  </div>
+
+                  <!-- Weather icon -->
+                  <div class="p-2">
+                    <img [src]="card.condition.icon" alt="Weather Condition Icon" title="Weather condition"
+                      class="weather-con-img pulse-animation" />
+                  </div>
+
+                  <!-- Weather condition text -->
+                  <div class="condition-text">{{ card.condition.text }}</div>
+
+                  <!-- Temperature -->
+                  <div class="fw-semibold mt-1">
+                    {{ inCelsius ? card.temp_c : card.temp_f | number: '1.0-0' }} {{ inCelsius ? '°C' : '°F' }}
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

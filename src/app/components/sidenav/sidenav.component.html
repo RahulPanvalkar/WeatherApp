@@ -1,0 +1,49 @@
+<!-- Sidebar Navigation -->
+<nav class="navbar fixed-top m-4">
+  <div class="container-fluid">
+
+    <!-- Sidebar toggle button -->
+    <button class="navbar-toggler p-0 custom-toggler" type="button" data-bs-toggle="offcanvas" (click)="toggleSidebar()"
+      data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" *ngIf="!sidebarOpen">
+      <img src="assets/burger.svg" alt="Menu Icon" class="custom-toggler-icon"> <!-- Icon for toggling sidebar -->
+    </button>
+
+    <!-- Offcanvas Sidebar -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" #sidebarElement aria-labelledby="offcanvasNavbarLabel">
+      <!-- Offcanvas Header -->
+      <div class="offcanvas-header">
+        <button type="button" class="btn-close btn-close-white" (click)="closeSidebar()" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+    
+      <!-- Offcanvas Body with navigation links -->
+      <div class="offcanvas-body d-flex align-items-center">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <!-- Home Navigation Link -->
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" routerLink="/">
+              <img src="assets/home.png" class="me-2" title="Home"> <!-- Home icon -->
+              <span class="text-light">Home</span>
+            </a>
+          </li>
+
+          <!-- Forecast Navigation Link -->
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/forecast">
+              <img src="assets/forecast.png" class="me-2" title="Forecast"> <!-- Forecast icon -->
+              <span class="text-light">Forecast</span>
+            </a>
+          </li>
+
+          <!-- About Navigation Link -->
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/about">
+              <img src="assets/about.png" class="me-2" title="About"> <!-- About icon -->
+              <span class="text-light">About</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+  </div>
+</nav>

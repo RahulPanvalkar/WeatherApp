@@ -1,0 +1,23 @@
+<div class="container-fluid">
+    <!-- Side navigation component -->
+    <app-sidenav></app-sidenav>
+
+    <!-- Navbar -->
+    <nav class="navbar fixed-top mt-4">
+        <div class="container d-flex align-items-center">
+            <!-- Brand Logo and Name -->
+            <div class="d-flex align-items-center">
+                <a class="navbar-brand" routerLink="/"><span class="brand-name">Weather</span></a>
+            </div>
+
+            <!-- Units Toggle Switch -->
+            <input id="toggle" class="toggle text-light ms-auto d-flex align-items-center" 
+                type="checkbox" role="switch" name="toggle" (change)="toggleUnits()">
+            <label for="toggle" class="unit">
+                <!-- Display labels for temperature unit toggle (Celsius and Fahrenheit) -->
+                <span class="unit__label">C</span>
+                <span class="unit__label">F</span>
+            </label>
+        </div>
+    </nav>
+</div>
