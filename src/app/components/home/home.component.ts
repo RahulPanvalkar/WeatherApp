@@ -96,7 +96,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       const timeoutMessage = "Request timed out! Please try again.";
       console.error(timeoutMessage);
       this.openSnackBar(timeoutMessage, 'Dismiss', 'warning'); // Show Snackbar for timeout
-    }, 20000); // Timeout set to 20 seconds
+    }, 60000); // Timeout set to 60 seconds
 
     this.geolocationService.getCurrentLocation()
       .then(position => {
@@ -127,7 +127,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       const timeoutMessage = "Request timed out! Please try again later.";
       console.error(timeoutMessage);
       this.openSnackBar(timeoutMessage, 'Dismiss', 'warning'); // Snackbar for timeout
-    }, 20000); // Timeout set to 20 seconds
+    }, 60000); // Timeout set to 20 seconds
 
     // Subscribe to weather data fetching based on geo-location
     this.homeService.fetchWeatherDataByGeoLocation(latitude, longitude).subscribe({
@@ -159,7 +159,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         const timeoutMessage = "Request timed out! Please try again later.";
         console.error(timeoutMessage);
         this.openSnackBar(timeoutMessage, 'Retry', 'error'); // Snackbar for timeout
-      }, 20000); // Timeout set to 20 seconds
+      }, 60000); // Timeout set to 20 seconds
 
       // Fetch weather data by city name
       this.homeService.fetchWeatherDataByCity(this.value).subscribe({
