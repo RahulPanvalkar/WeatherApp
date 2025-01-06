@@ -4,7 +4,7 @@
  [Live Demo](https://weather-app-54ys.onrender.com)
 </h2>
 <div align="center">
-  <img alt="Demo" src="./images/macbook-view.png" />
+  <img alt="Demo" src="./images/mob-laptop-view.png" />
 </div>
 
 <br/>

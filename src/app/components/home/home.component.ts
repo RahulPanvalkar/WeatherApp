@@ -11,7 +11,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 @Component({
   selector: 'home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'], 
+  styleUrls: ['./home.component.css'],
   animations: [
     // Animation to fade in the content when entering
     trigger('fadeInAnimation', [
@@ -91,16 +91,12 @@ export class HomeComponent implements OnInit, OnDestroy {
    */
   getUserLocationAndWeather() {
     // Set a timeout to handle requests taking too long
-    const timeout = setTimeout(() => {
-      this.loading = false;
-      const timeoutMessage = "Request timed out! Please try again.";
-      console.error(timeoutMessage);
-      this.openSnackBar(timeoutMessage, 'Dismiss', 'warning'); // Show Snackbar for timeout
-    }, 60000); // Timeout set to 60 seconds
+    const { warningTimeout, timeout } = this.setTimeouts();
 
     this.geolocationService.getCurrentLocation()
       .then(position => {
-        clearTimeout(timeout); // Clear the timeout if successful
+        clearTimeout(warningTimeout); // Clear the warning timeout
+        clearTimeout(timeout);        // Clear the main timeout
         const latitude = position.coords.latitude;   // Get latitude from position
         const longitude = position.coords.longitude; // Get longitude from position
         this.getWeatherDataForUserLocation(latitude, longitude); // Fetch weather data
@@ -109,7 +105,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         console.log("Geo-location error occurred.");
         this.errorMessage = 'Unable to retrieve Geolocation. Please enable location access.';
         this.openSnackBar(this.errorMessage, '', 'error'); // Snackbar for error
-        clearTimeout(timeout); // Clear the timeout on error
+        clearTimeout(warningTimeout);
+        clearTimeout(timeout);
       });
   }
 
@@ -122,26 +119,23 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.loading = true; // Set loading state to true
 
     // Set a timeout to handle requests taking too long
-    const timeout = setTimeout(() => {
-      this.loading = false;
-      const timeoutMessage = "Request timed out! Please try again later.";
-      console.error(timeoutMessage);
-      this.openSnackBar(timeoutMessage, 'Dismiss', 'warning'); // Snackbar for timeout
-    }, 60000); // Timeout set to 20 seconds
+    const { warningTimeout, timeout } = this.setTimeouts();
 
     // Subscribe to weather data fetching based on geo-location
     this.homeService.fetchWeatherDataByGeoLocation(latitude, longitude).subscribe({
       next: ({ weather, forecast }) => {
         this.updateView(weather, forecast); // Update the view with fetched weather data
         this.loading = false; // Set loading state to false
-        clearTimeout(timeout); // Clear the timeout on success
+        clearTimeout(warningTimeout);
+        clearTimeout(timeout);
       },
       error: error => {
         console.log("Error occurred while fetching weather data.");
         this.loading = false;
         this.errorMessage = 'Unable to fetch weather data for your location. Please try again.';
         this.openSnackBar(this.errorMessage, 'Dismiss', 'warning'); // Snackbar for error
-        clearTimeout(timeout); // Clear the timeout on error
+        clearTimeout(warningTimeout);
+        clearTimeout(timeout);
       },
     });
   }
@@ -154,26 +148,25 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.loading = true; // Set loading state to true
 
       // Set a timeout to handle requests taking too long
-      const timeout = setTimeout(() => {
-        this.loading = false;
-        const timeoutMessage = "Request timed out! Please try again later.";
-        console.error(timeoutMessage);
-        this.openSnackBar(timeoutMessage, 'Retry', 'error'); // Snackbar for timeout
-      }, 60000); // Timeout set to 20 seconds
+      const { warningTimeout, timeout } = this.setTimeouts(500);
 
       // Fetch weather data by city name
       this.homeService.fetchWeatherDataByCity(this.value).subscribe({
         next: ({ weather, forecast }) => {
           this.updateView(weather, forecast); // Update the view with fetched weather data
           this.loading = false; // Set loading state to false
-          clearTimeout(timeout); // Clear the timeout on success
+          clearTimeout(warningTimeout);
+          clearTimeout(timeout);
           this.openSnackBar("Weather data fetched successfully!", '', 'success'); // Snackbar on success
         },
         error: error => {
+          console.log("error cooasd");
           this.loading = false;
           this.errorMessage = 'Unable to fetch weather data. Please try again.';
           this.openSnackBar(this.errorMessage, 'Retry', 'error'); // Snackbar for error
-          clearTimeout(timeout); // Clear the timeout on error
+          console.log("error cooasd 111");
+          clearTimeout(warningTimeout);
+          clearTimeout(timeout);
         },
       });
     }
@@ -225,12 +218,46 @@ export class HomeComponent implements OnInit, OnDestroy {
     const panelClass = `snackbar-${type}`;
     //console.log("panelClass :: ", panelClass);
     this._snackBar.open(message, action, {
-      duration: 5000,
+      //duration: 5000,
       panelClass: [panelClass], // Use dynamic class
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
     });
   }
+
+  /**
+   * Sets two timeouts to handle request duration and show appropriate messages:
+   *
+   * 1. **Warning Timeout**: 
+   *    - Triggers after 20 seconds to display a message indicating the request is taking longer than expected.
+   * 2. **Timeout**:
+   *    - Triggers after the specified `timeoutDelay` (default is 60 seconds) to indicate the request has timed out.
+   * Returns:
+   *    - An object containing both the warning timeout and the main timeout identifiers, allowing further control or cleanup if necessary.
+   * @param timeoutDelay - The duration after which the main timeout occurs (defaults to 60000ms / 60 seconds).
+   * @returns An object containing `warningTimeout` and `timeout` identifiers.
+   */
+  private setTimeouts(timeoutDelay: number = 60000): { warningTimeout: ReturnType<typeof setTimeout>, timeout: ReturnType<typeof setTimeout> } {
+    console.log("setting timeout..");
+
+    const warningTimeout = setTimeout(() => {
+      console.log("setting warningTimeout..");
+      const waitingMessage = "This is taking longer than expected. Please wait..";
+      console.warn(waitingMessage);
+      this.openSnackBar(waitingMessage, '', 'warning'); // Show snackbar with warning message
+    }, 20000); // 20 seconds delay for the warning
+
+    const timeout = setTimeout(() => {
+      this.loading = false; // Stop loading spinner/process
+      const timeoutMessage = "Request timed out! Please try again later.";
+      this.openSnackBar(timeoutMessage, 'Dismiss', 'warning'); // Show snackbar with timeout message
+      clearTimeout(warningTimeout); // Clear the warning timeout
+    }, timeoutDelay); // Delay set by timeoutDelay parameter
+
+    return { warningTimeout, timeout };
+  }
+
+
 
   /**
    * Set dummy data for demonstration purposes.
@@ -239,21 +266,21 @@ export class HomeComponent implements OnInit, OnDestroy {
     console.warn('adding dummy data..');
     this.inCelsius = true;
 
-    this.currentDateTime = new Date().toISOString(); 
-    this.lastUpdatedTime = new Date().toISOString(); 
+    this.currentDateTime = new Date().toISOString();
+    this.lastUpdatedTime = new Date().toISOString();
 
-    this.iconURL = "https://www.example.com/weather-icon.png"; 
+    this.iconURL = "https://www.example.com/weather-icon.png";
     this.cityName = "San Francisco";
     this.weatherStatus = "Sunny";
-    this.humidity = 65; 
-    this.wind = 12; 
+    this.humidity = 65;
+    this.wind = 12;
 
-    this.minTemp_c = 10; 
-    this.maxTemp_c = 22; 
-    this.temperature_c = 18; 
+    this.minTemp_c = 10;
+    this.maxTemp_c = 22;
+    this.temperature_c = 18;
 
-    this.minTemp_f = (this.minTemp_c * 9) / 5 + 32; 
-    this.maxTemp_f = (this.maxTemp_c * 9) / 5 + 32; 
-    this.temperature_f = (this.temperature_c * 9) / 5 + 32; 
+    this.minTemp_f = (this.minTemp_c * 9) / 5 + 32;
+    this.maxTemp_f = (this.maxTemp_c * 9) / 5 + 32;
+    this.temperature_f = (this.temperature_c * 9) / 5 + 32;
   }
 }

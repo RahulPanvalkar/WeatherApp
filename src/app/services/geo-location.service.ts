@@ -9,7 +9,7 @@ export class GeolocationService {
    * @returns A Promise that resolves with the GeolocationPosition object or rejects with an error.
    */
   getCurrentLocation(): Promise<GeolocationPosition> {
-    console.log("Getting geo location...");
+    console.log("Getting geo-location...");
     return new Promise((resolve, reject) => {
       // Check if geolocation is supported by the user's browser
       if (navigator.geolocation) {

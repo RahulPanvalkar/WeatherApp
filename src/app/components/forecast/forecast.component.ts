@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { BreakpointObserver } from '@angular/cdk/layout';
 import { ForecastService } from './forecast.service';
 import { ToggleService } from 'src/app/services/toggle.service';
 import { trigger, transition, style, animate } from '@angular/animations';
@@ -49,7 +48,6 @@ export class ForecastComponent implements OnInit {
 
 
   constructor(
-    private breakpointObserver: BreakpointObserver,
     private forecastService: ForecastService,
     private toggleService: ToggleService
   ) { }
@@ -86,8 +84,6 @@ export class ForecastComponent implements OnInit {
     });
 
   }
-
-
 
   /**
    * Handles the selection of a forecast card. 

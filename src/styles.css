@@ -45,6 +45,7 @@ body {
 /* Global Styles (styles.css or styles.scss) */
 .mat-mdc-snack-bar-container {
     margin: 1.5rem !important;
+    z-index: 9999 !important;    /* Highest z-index to ensure it stays above other content */
 }
   
 
