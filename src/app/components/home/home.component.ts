@@ -102,7 +102,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.getWeatherDataForUserLocation(latitude, longitude); // Fetch weather data
       })
       .catch(error => {
-        console.log("Geo-location error occurred.");
+        console.error("Geo-location error occurred.");
         this.errorMessage = 'Unable to retrieve Geolocation. Please enable location access.';
         this.openSnackBar(this.errorMessage, '', 'error'); // Snackbar for error
         clearTimeout(warningTimeout);
@@ -130,7 +130,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         clearTimeout(timeout);
       },
       error: error => {
-        console.log("Error occurred while fetching weather data.");
+        console.error(error);
         this.loading = false;
         this.errorMessage = 'Unable to fetch weather data for your location. Please try again.';
         this.openSnackBar(this.errorMessage, 'Dismiss', 'warning'); // Snackbar for error
@@ -148,7 +148,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.loading = true; // Set loading state to true
 
       // Set a timeout to handle requests taking too long
-      const { warningTimeout, timeout } = this.setTimeouts(500);
+      const { warningTimeout, timeout } = this.setTimeouts();
 
       // Fetch weather data by city name
       this.homeService.fetchWeatherDataByCity(this.value).subscribe({
@@ -157,14 +157,12 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.loading = false; // Set loading state to false
           clearTimeout(warningTimeout);
           clearTimeout(timeout);
-          this.openSnackBar("Weather data fetched successfully!", '', 'success'); // Snackbar on success
+          this.openSnackBar('Weather data fetched successfully!', 'Dismiss', 'success'); // Snackbar on success
         },
         error: error => {
-          console.log("error cooasd");
           this.loading = false;
           this.errorMessage = 'Unable to fetch weather data. Please try again.';
           this.openSnackBar(this.errorMessage, 'Retry', 'error'); // Snackbar for error
-          console.log("error cooasd 111");
           clearTimeout(warningTimeout);
           clearTimeout(timeout);
         },
@@ -218,7 +216,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     const panelClass = `snackbar-${type}`;
     //console.log("panelClass :: ", panelClass);
     this._snackBar.open(message, action, {
-      //duration: 5000,
+      duration: 10000,
       panelClass: [panelClass], // Use dynamic class
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
@@ -238,10 +236,7 @@ export class HomeComponent implements OnInit, OnDestroy {
    * @returns An object containing `warningTimeout` and `timeout` identifiers.
    */
   private setTimeouts(timeoutDelay: number = 60000): { warningTimeout: ReturnType<typeof setTimeout>, timeout: ReturnType<typeof setTimeout> } {
-    console.log("setting timeout..");
-
     const warningTimeout = setTimeout(() => {
-      console.log("setting warningTimeout..");
       const waitingMessage = "This is taking longer than expected. Please wait..";
       console.warn(waitingMessage);
       this.openSnackBar(waitingMessage, '', 'warning'); // Show snackbar with warning message
