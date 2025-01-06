@@ -56,13 +56,8 @@ export class ForecastComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // Observe screen size changes for responsive design
-    this.breakpointObserver
-      .observe(['(max-width: 650px)'])
-      .subscribe((result) => {
-        this.isMobileView = result.matches;
-        (this.isMobileView) ? this.cardsToShow = 4 : this.cardsToShow = 5;
-      });
+    // Call the function to determine the number of cards to show based on screen size
+    this.setCardsToShow();
 
     // Initialize temperature unit toggle
     this.inCelsius = !this.toggleService.toggleValue;
@@ -74,6 +69,25 @@ export class ForecastComponent implements OnInit {
     this.forecastService.loadForecastData();
     this.selectedCard = this.dataCard[1]; // Set the next day forecast card as selected
   }
+
+  private setCardsToShow(): void {
+    // Subscribe to screen size changes from the service
+    this.forecastService.observeScreenSize().subscribe((result) => {
+      // Check each breakpoint and set the number of cards accordingly
+      if (result.breakpoints['(max-width: 400px)']) {
+        this.cardsToShow = 4; // Below 400px
+      } else if (result.breakpoints['(min-width: 401px) and (max-width: 520px)']) {
+        this.cardsToShow = 6; // Between 401px and 520px
+      } else if (result.breakpoints['(min-width: 521px) and (max-width: 650px)']) {
+        this.cardsToShow = 4; // Between 521px and 650px
+      } else if (result.breakpoints['(min-width: 651px)']) {
+        this.cardsToShow = 5; // Above 650px
+      }
+    });
+
+  }
+
+
 
   /**
    * Handles the selection of a forecast card. 

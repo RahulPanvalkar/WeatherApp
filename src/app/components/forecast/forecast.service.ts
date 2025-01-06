@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { WeatherService } from 'src/app/services/weather.service';
 import { DummyDataService } from 'src/app/components/forecast/dummy-data.service';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +20,17 @@ export class ForecastService {
   // Starting index for the hourly data currently displayed
   currentIndex: number = 0;
 
-  constructor(private weatherService: WeatherService, private dummyData: DummyDataService) { }
+  constructor(private breakpointObserver: BreakpointObserver, private weatherService: WeatherService, private dummyData: DummyDataService) { }
+
+  observeScreenSize(): Observable<BreakpointState> {
+    // Use Angular's BreakpointObserver to monitor changes in screen size
+    return this.breakpointObserver.observe([
+      '(max-width: 400px)', // Below 400px
+      '(min-width: 401px) and (max-width: 520px)', // Between 401px and 520px
+      '(min-width: 521px) and (max-width: 650px)', // Between 521px and 650px
+      '(min-width: 651px)', // Above 650px
+    ]);
+  }
 
   /**
    * Loads forecast data into `dataCard` and initializes `hourlyDataCard`.
@@ -32,9 +44,9 @@ export class ForecastService {
     if (dataObj && dataObj.weather && dataObj.forecast) {
       forecastData = dataObj.forecast;
     } else {
-      //console.warn('DataObj or its properties are undefined');
-      //forecastData = this.dummyData.forecastData();
-      return;
+      console.warn('DataObj or its properties are undefined');
+      forecastData = this.dummyData.forecastData();
+      //return;
     }
 
     // Populate daily and hourly forecast data
