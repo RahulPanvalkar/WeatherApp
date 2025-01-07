@@ -30,8 +30,8 @@ export class WeatherService {
     return this.http.get<any>(url, { params }).pipe(
       map((response: any) => response.data as WeatherData), // Transform API response to WeatherData model
       catchError(error => {
-        console.error('Error fetching weather data:', error);
-        const errorMessage = error?.error?.message || 'An unknown error occurred'; 
+       //console.error('Error fetching weather data:', error);
+        const errorMessage = error?.error?.message || 'An error occurred while fetching weather data.'; 
         return throwError(() => new Error(`${errorMessage}`)); 
       })
     );
@@ -49,8 +49,8 @@ export class WeatherService {
     return this.http.get<any>(url, { params }).pipe(
       map((response: any) => response.data as WeatherForecast), // Transform API response to WeatherForecast model
       catchError(error => {
-        console.error('Error fetching forecast data:', error);
-        const errorMessage = error?.error?.message || 'An unknown error occurred'; 
+        //console.error('Error fetching forecast data:', error);
+        const errorMessage = error?.error?.message || 'An error occurred while fetching forecast data.'; 
         return throwError(() => new Error(`${errorMessage}`)); 
       })
     );
@@ -71,8 +71,8 @@ export class WeatherService {
     return this.http.get<any>(url, { params }).pipe(
       map((response: any) => response.data as WeatherData), // Transform API response to WeatherData model
       catchError(error => {
-        console.error('Error fetching weather data:', error);
-        const errorMessage = error?.error?.message || 'An unknown error occurred'; 
+        //console.error('Error fetching weather data:', error);
+        const errorMessage = error?.error?.message || 'An error occurred while fetching weather data.'; 
         return throwError(() => new Error(`${errorMessage}`)); 
       })
     );
@@ -93,8 +93,9 @@ export class WeatherService {
     return this.http.get<any>(url, { params }).pipe(
       map((response: any) => response.data as WeatherForecast), // Transform API response to WeatherForecast model
       catchError(error => {
-        console.error('Error fetching forecast data:', error);
-        const errorMessage = error?.error?.message || 'An unknown error occurred'; 
+        console.log(error);
+        //console.error('Error fetching forecast data:', error);
+        const errorMessage = error?.error?.message || 'An error occurred while fetching forecast data.'; 
         return throwError(() => new Error(`${errorMessage}`));
       })
     );

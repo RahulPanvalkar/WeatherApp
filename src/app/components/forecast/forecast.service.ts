@@ -44,9 +44,9 @@ export class ForecastService {
     if (dataObj && dataObj.weather && dataObj.forecast) {
       forecastData = dataObj.forecast;
     } else {
-      console.warn('DataObj or its properties are undefined');
-      forecastData = this.dummyData.forecastData();
-      //return;
+      //console.warn('DataObj or its properties are undefined');
+      //forecastData = this.dummyData.forecastData();
+      return;
     }
 
     // Populate daily and hourly forecast data

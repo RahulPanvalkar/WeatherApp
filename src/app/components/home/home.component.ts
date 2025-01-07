@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   temperature_f!: number;  // Current temperature in Fahrenheit
 
   toggleValueSubscription!: Subscription; // Subscription to toggle value changes
-  errorMessage: string | null = null;      // Error message for any API failure
+  errorMessage: string = '';      // Error message for any API failure
 
   constructor(
     private toggleService: ToggleService,    // Service to manage the temperature unit toggle
@@ -104,7 +104,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       .catch(error => {
         console.error("Geo-location error occurred.");
         this.errorMessage = 'Unable to retrieve Geolocation. Please enable location access.';
-        this.openSnackBar(this.errorMessage, '', 'error'); // Snackbar for error
+        this.openSnackBar(this.errorMessage, 'Dismiss', 'warning'); // Snackbar for error
         clearTimeout(warningTimeout);
         clearTimeout(timeout);
       });
@@ -132,8 +132,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       error: error => {
         console.error(error);
         this.loading = false;
-        this.errorMessage = 'Unable to fetch weather data for your location. Please try again.';
-        this.openSnackBar(this.errorMessage, 'Dismiss', 'warning'); // Snackbar for error
+        this.errorMessage = error?.message || 'Unable to fetch weather data for your location.';
+        this.openSnackBar(this.errorMessage, 'Retry', 'warning'); // Snackbar for error
         clearTimeout(warningTimeout);
         clearTimeout(timeout);
       },
@@ -161,7 +161,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         },
         error: error => {
           this.loading = false;
-          this.errorMessage = 'Unable to fetch weather data. Please try again.';
+          this.errorMessage = error?.message || 'Error occurred while fetching weather data.';
           this.openSnackBar(this.errorMessage, 'Retry', 'error'); // Snackbar for error
           clearTimeout(warningTimeout);
           clearTimeout(timeout);
@@ -237,14 +237,14 @@ export class HomeComponent implements OnInit, OnDestroy {
    */
   private setTimeouts(timeoutDelay: number = 60000): { warningTimeout: ReturnType<typeof setTimeout>, timeout: ReturnType<typeof setTimeout> } {
     const warningTimeout = setTimeout(() => {
-      const waitingMessage = "This is taking longer than expected. Please wait..";
-      console.warn(waitingMessage);
+      const waitingMessage = "This may take some time. Please wait..";
+      //console.warn(waitingMessage);
       this.openSnackBar(waitingMessage, '', 'warning'); // Show snackbar with warning message
     }, 20000); // 20 seconds delay for the warning
 
     const timeout = setTimeout(() => {
       this.loading = false; // Stop loading spinner/process
-      const timeoutMessage = "Request timed out! Please try again later.";
+      const timeoutMessage = "Request timed out! Please try again.";
       this.openSnackBar(timeoutMessage, 'Dismiss', 'warning'); // Show snackbar with timeout message
       clearTimeout(warningTimeout); // Clear the warning timeout
     }, timeoutDelay); // Delay set by timeoutDelay parameter
@@ -257,7 +257,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   /**
    * Set dummy data for demonstration purposes.
    */
-  dummyData() {
+  /*dummyData() {
     console.warn('adding dummy data..');
     this.inCelsius = true;
 
@@ -277,5 +277,5 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.minTemp_f = (this.minTemp_c * 9) / 5 + 32;
     this.maxTemp_f = (this.maxTemp_c * 9) / 5 + 32;
     this.temperature_f = (this.temperature_c * 9) / 5 + 32;
-  }
+  }*/
 }
